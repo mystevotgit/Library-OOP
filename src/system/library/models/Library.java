@@ -100,7 +100,8 @@ public class Library {
     }
 
     /**
-     *
+     *This method is another implementation of lendBook that allows teachers to be prioritized
+     * over senior students and senior students over junior students.
      * @param book
      * @param requests
      * @param <String>
@@ -109,10 +110,13 @@ public class Library {
      */
 
     public <String, Object, Boolean> List<Person> lendBook(String book, List<Person> requests, Boolean comparator) {
+        // Creating a Priority Queue.
         PriorityQueue<Person> queue = new PriorityQueue<Person>(10, new Comparator<Person>() {
             public int compare(Person person1, Person person2) {
-                if (person1.getPriority() < person2.getPriority()) return -1;
-                if (person1.getPriority() > person2.getPriority()) return 1;
+                if (person1.getPriority() < person2.getPriority())
+                    return -1;
+                if (person1.getPriority() > person2.getPriority())
+                    return 1;
                 return 0;
             }
         });
