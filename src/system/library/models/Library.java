@@ -8,8 +8,8 @@ public class Library {
     private String name;
     private Liberian liberian;
     private Map<String, Integer> books;
-    private Map<String, Queue<String>> bookRequests;
-    private Map<String, List<String>> bookHolders;
+    private Map<String, Queue<Person>> bookRequests;
+    private Map<String, List<Person>> bookHolders;
 
     /**
      * This is the library constructor.
@@ -22,7 +22,7 @@ public class Library {
         this.name = libraryName;
         this.liberian = liberian;
         this.books = new HashMap<>();
-        this.bookRequests = new HashMap<String, Queue<String>>();
+        this.bookRequests = new HashMap<String, Queue<Person>>();
         this.bookHolders = new HashMap<>();
     }
 
@@ -47,12 +47,12 @@ public class Library {
 
     /**
      * This method returns the books borrowed already.
-     * @param bookHolders
      * @param <M>
+     * @param bookHolders
      * @return
      */
 
-    public <M> Set<String> getBooksBorrowed(Map<String, List<String>> bookHolders) {
+    public <M> Set<String> getBooksBorrowed(Map<String, List<Person>> bookHolders) {
         Set<String> keys = bookHolders.keySet();
         for  (String key : keys) {
             if (bookHolders.get(key).isEmpty()) {
@@ -108,9 +108,22 @@ public class Library {
      * @return
      */
 
-    public <String, Queue> List<String> lendBook(String book, Queue requests, String comparator) {
+    public <String, Object, Boolean> List<Person> lendBook(String book, List<Person> requests, Boolean comparator) {
+        PriorityQueue<Person> queue = new PriorityQueue<Person>(10, new Comparator<Person>() {
+            public int compare(Person person1, Person person2) {
+                if (person1.getPriority() < person2.getPriority()) return -1;
+                if (person1.getPriority() > person2.getPriority()) return 1;
+                return 0;
+            }
+        });
 
-        return new ArrayList<>();
+        queue.addAll(requests);
+        List<Person> result = new ArrayList<>();
+        while(queue.iterator().hasNext()) {
+            System.out.println(queue.element().getName());
+            result.add(queue.remove());
+        }
+        return result;
     }
 
     public Map<String, Integer> retrieveBook(String book, String person) {
@@ -132,7 +145,7 @@ public class Library {
      * @return
      */
 
-    public <String> Queue<String> addBookRequest(String book, String person){
+    public <String> Queue<Person> addBookRequest(String book, Person person){
 //        Map <String, String> request = new HashMap<>();
 //        request.put(person, type);
         if (bookRequests.containsKey(book)) {
@@ -140,15 +153,15 @@ public class Library {
                 System.out.println("This person is already on the request queue for this book");
             }
             else {
-                bookRequests.get(book).add((java.lang.String) person);
+                bookRequests.get(book).add((system.library.models.Person) person);
             }
         } else {
-            Queue<String> requestQueue = new LinkedList<>();
-            requestQueue.add(person);
-            bookRequests.put((java.lang.String) book, (Queue<java.lang.String>) requestQueue);
+            Queue<Person> requestQueue = new LinkedList<>();
+            requestQueue.add((Person) person);
+            bookRequests.put((java.lang.String) book, (Queue<system.library.models.Person>) requestQueue);
         }
 
-        return (Queue<String>) bookRequests.get(book);
+        return (Queue<Person>) bookRequests.get(book);
     }
 
 
@@ -161,11 +174,11 @@ public class Library {
         return books;
     }
 
-    public Map<String, List<String>> getBookHolders() {
+    public Map<String, List<Person>> getBookHolders() {
         return bookHolders;
     }
 
-    public Map<String, Queue<String>> getBookRequests() {
+    public Map<String, Queue<Person>> getBookRequests() {
         return bookRequests;
     }
 

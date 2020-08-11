@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryTest {
 
-    Liberian liberian = new Liberian(1, "John Doe", "liberian", 1990);
+    Liberian liberian = new Liberian(1, "John Doe", "liberian", 1, 1990);
 
     Library library = new Library("Decagon Library", liberian);
 
@@ -48,12 +48,12 @@ class LibraryTest {
     void lendBook_and_retrieveBook() {
         Map requests = library.getBookRequests();
 
-        Person student1 = new Person(101, "Samuel", "junior student", 1995);
-        Person student2 = new Person(102, "Tunji", "senior student", 1993);
-        Person teacher1 = new Person(103, "David", "teacher", 1990);
-        Person student3 = new Person(104, "Emmanuel", "senior student", 1992);
-        Person student4 = new Person(105, "Daniel", "junior student", 1998);
-        Person teacher2 = new Person(106, "Chibueze", "teacher", 1985);
+        Person student1 = new Person(101, "Samuel", "junior student", 3, 1995);
+        Person student2 = new Person(102, "Tunji", "senior student", 2, 1993);
+        Person teacher1 = new Person(103, "David", "teacher", 1,1990);
+        Person student3 = new Person(104, "Emmanuel", "senior student", 2, 1992);
+        Person student4 = new Person(105, "Daniel", "junior student", 3, 1998);
+        Person teacher2 = new Person(106, "Chibueze", "teacher", 1, 1985);
 
         library.addBook("The History of Tom Jones, a Foundling by Henry Fielding", 3);
         library.addBook("Pride and Prejudice by Jane Austen", 5);
@@ -64,21 +64,21 @@ class LibraryTest {
         library.addBook("The Sound and the Fury by William Faulkner", 6);
         library.addBook("Pale Fire by Vladimir Nabokov", 2);
 
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student2.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student3.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", teacher1.getName());
-        library.addBookRequest("In Search of Lost Time by Marcel Proust", student1.getName());
-        library.addBookRequest("In Search of Lost Time by Marcel Proust", student4.getName());
-        library.addBookRequest("David Copperfield by Charles Dickens", student3.getName());
-        library.addBookRequest("Pride and Prejudice by Jane Austen", student2.getName());
-        library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2.getName());
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student2);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student3);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", teacher1);
+        library.addBookRequest("In Search of Lost Time by Marcel Proust", student1);
+        library.addBookRequest("In Search of Lost Time by Marcel Proust", student4);
+        library.addBookRequest("David Copperfield by Charles Dickens", student3);
+        library.addBookRequest("Pride and Prejudice by Jane Austen", student2);
+        library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2);
 
-        List<String> expected1 = Arrays.asList("Samuel", "Tunji");
-        List<String> expected2 = Arrays.asList("Samuel", "Daniel", "Chibueze");
-        List<String> expected3 = Arrays.asList("Tunji");
-        List<String> expected4 = Arrays.asList("Emmanuel");
+        List<Person> expected1 = Arrays.asList(student1, student2);
+        List<Person> expected2 = Arrays.asList(student1, student4, teacher2);
+        List<Person> expected3 = Arrays.asList(student2);
+        List<Person> expected4 = Arrays.asList(student3);
 
 
         Map<String, Integer> expectedBooks1 = library.getBooks();
@@ -95,8 +95,13 @@ class LibraryTest {
         assertEquals(expectedBooks2, library.retrieveBook("In Search of Lost Time by Marcel Proust", "Daniel"));
         assertEquals(expectedBooks3, library.retrieveBook("Pride and Prejudice by Jane Austen", "Tunji"));
 
-//        System.out.println(requests.toString());
-//        System.out.println(library.getBooks());
+        System.out.println(requests.toString());
+        System.out.println(library.getBooks());
+
+        List<Person> expected10 = Arrays.asList(teacher2, student3, student1, student4);
+        List<Person> bookRequests = Arrays.asList(student1, student4, teacher2, student3);
+        assertEquals(expected10, library.lendBook("Pale Fire by Vladimir Nabokov", bookRequests, true));
+        System.out.println(library.getBooks());
     }
 
 
@@ -104,12 +109,12 @@ class LibraryTest {
     void getBooksBorrowed() {
         Map requests = library.getBookRequests();
 
-        Person student1 = new Person(101, "Samuel", "junior student", 1995);
-        Person student2 = new Person(102, "Tunji", "senior student", 1993);
-        Person teacher1 = new Person(103, "David", "teacher", 1990);
-        Person student3 = new Person(104, "Emmanuel", "senior student", 1992);
-        Person student4 = new Person(105, "Daniel", "junior student", 1998);
-        Person teacher2 = new Person(106, "Chibueze", "teacher", 1985);
+        Person student1 = new Person(101, "Samuel", "junior student", 3, 1995);
+        Person student2 = new Person(102, "Tunji", "senior student", 2, 1993);
+        Person teacher1 = new Person(103, "David", "teacher", 1,1990);
+        Person student3 = new Person(104, "Emmanuel", "senior student", 2, 1992);
+        Person student4 = new Person(105, "Daniel", "junior student", 3, 1998);
+        Person teacher2 = new Person(106, "Chibueze", "teacher", 1, 1985);
 
         library.addBook("The History of Tom Jones, a Foundling by Henry Fielding", 3);
         library.addBook("Pride and Prejudice by Jane Austen", 5);
@@ -120,16 +125,16 @@ class LibraryTest {
         library.addBook("The Sound and the Fury by William Faulkner", 6);
         library.addBook("Pale Fire by Vladimir Nabokov", 2);
 
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student2.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student3.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", teacher1.getName());
-        library.addBookRequest("In Search of Lost Time by Marcel Proust", student1.getName());
-        library.addBookRequest("In Search of Lost Time by Marcel Proust", student4.getName());
-        library.addBookRequest("David Copperfield by Charles Dickens", student3.getName());
-        library.addBookRequest("Pride and Prejudice by Jane Austen", student2.getName());
-        library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2.getName());
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student2);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student3);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", teacher1);
+        library.addBookRequest("In Search of Lost Time by Marcel Proust", student1);
+        library.addBookRequest("In Search of Lost Time by Marcel Proust", student4);
+        library.addBookRequest("David Copperfield by Charles Dickens", student3);
+        library.addBookRequest("Pride and Prejudice by Jane Austen", student2);
+        library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2);
 
         List<String> list1 = Arrays.asList("Pale Fire by Vladimir Nabokov");
         List<String> list2 = Arrays.asList("Pale Fire by Vladimir Nabokov", "In Search of Lost Time by Marcel Proust");
@@ -143,7 +148,7 @@ class LibraryTest {
         Set<String> expected3 = new HashSet<>(list3);
         Set<String> expected4 = new HashSet<>(list4);
 
-        Map <String, List<String>> holders = library.getBookHolders();
+        Map <String, List<Person>> holders = library.getBookHolders();
         library.lendBook("Pale Fire by Vladimir Nabokov", requests.get("Pale Fire by Vladimir Nabokov"));
         assertEquals(expected1, library.getBooksBorrowed(holders));
 
@@ -161,12 +166,12 @@ class LibraryTest {
     void getBookHolders() {
         Map requests = library.getBookRequests();
 
-        Person student1 = new Person(101, "Samuel", "junior student", 1995);
-        Person student2 = new Person(102, "Tunji", "senior student", 1993);
-        Person teacher1 = new Person(103, "David", "teacher", 1990);
-        Person student3 = new Person(104, "Emmanuel", "senior student", 1992);
-        Person student4 = new Person(105, "Daniel", "junior student", 1998);
-        Person teacher2 = new Person(106, "Chibueze", "teacher", 1985);
+        Person student1 = new Person(101, "Samuel", "junior student", 3, 1995);
+        Person student2 = new Person(102, "Tunji", "senior student", 2, 1993);
+        Person teacher1 = new Person(103, "David", "teacher", 1,1990);
+        Person student3 = new Person(104, "Emmanuel", "senior student", 2, 1992);
+        Person student4 = new Person(105, "Daniel", "junior student", 3, 1998);
+        Person teacher2 = new Person(106, "Chibueze", "teacher", 1, 1985);
 
         library.addBook("The History of Tom Jones, a Foundling by Henry Fielding", 3);
         library.addBook("Pride and Prejudice by Jane Austen", 5);
@@ -177,21 +182,21 @@ class LibraryTest {
         library.addBook("The Sound and the Fury by William Faulkner", 6);
         library.addBook("Pale Fire by Vladimir Nabokov", 2);
 
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student2.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student3.getName());
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", teacher1.getName());
-        library.addBookRequest("In Search of Lost Time by Marcel Proust", student1.getName());
-        library.addBookRequest("In Search of Lost Time by Marcel Proust", student4.getName());
-        library.addBookRequest("David Copperfield by Charles Dickens", student3.getName());
-        library.addBookRequest("Pride and Prejudice by Jane Austen", student2.getName());
-        library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2.getName());
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student1);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student2);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student3);
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", teacher1);
+        library.addBookRequest("In Search of Lost Time by Marcel Proust", student1);
+        library.addBookRequest("In Search of Lost Time by Marcel Proust", student4);
+        library.addBookRequest("David Copperfield by Charles Dickens", student3);
+        library.addBookRequest("Pride and Prejudice by Jane Austen", student2);
+        library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2);
 
-        List<String> expected1 = Arrays.asList("Samuel", "Tunji");
-        List<String> expected2 = Arrays.asList("Samuel", "Daniel", "Chibueze");
-        List<String> expected3 = Arrays.asList("Tunji");
-        List<String> expected4 = Arrays.asList("Emmanuel");
+        List<Person> expected1 = Arrays.asList(student1, student2);
+        List<Person> expected2 = Arrays.asList(student1, student4, teacher2);
+        List<Person> expected3 = Arrays.asList(student2);
+        List<Person> expected4 = Arrays.asList(student3);
 
         library.lendBook("Pale Fire by Vladimir Nabokov", requests.get("Pale Fire by Vladimir Nabokov"));
         library.lendBook("In Search of Lost Time by Marcel Proust", requests.get("In Search of Lost Time by Marcel Proust"));
@@ -209,29 +214,29 @@ class LibraryTest {
     void addBookRequest() {
         Map requests = library.getBookRequests();
 
-        Person student1 = new Person(101, "Samuel", "junior student", 1995);
-        Person student2 = new Person(102, "Tunji", "senior student", 1993);
-        Person teacher1 = new Person(103, "David", "teacher", 1990);
-        Person student3 = new Person(104, "Emmanuel", "senior student", 1992);
-        Person student4 = new Person(105, "Daniel", "junior student", 1998);
-        Person teacher2 = new Person(106, "Chibueze", "teacher", 1985);
+        Person student1 = new Person(101, "Samuel", "junior student", 3, 1995);
+        Person student2 = new Person(102, "Tunji", "senior student", 2, 1993);
+        Person teacher1 = new Person(103, "David", "teacher", 1,1990);
+        Person student3 = new Person(104, "Emmanuel", "senior student", 2, 1992);
+        Person student4 = new Person(105, "Daniel", "junior student", 3, 1998);
+        Person teacher2 = new Person(106, "Chibueze", "teacher", 1, 1985);
 
-        Queue queue1 = library.addBookRequest("Pale Fire by Vladimir Nabokov", student1.getName());
-        assertEquals(queue1, library.addBookRequest("Pale Fire by Vladimir Nabokov", student1.getName()));
-        assertEquals(2, library.addBookRequest("Pale Fire by Vladimir Nabokov", student2.getName()).size());
+        Queue queue1 = library.addBookRequest("Pale Fire by Vladimir Nabokov", student1);
+        assertEquals(queue1, library.addBookRequest("Pale Fire by Vladimir Nabokov", student1));
+        assertEquals(2, library.addBookRequest("Pale Fire by Vladimir Nabokov", student2).size());
 
-        library.addBookRequest("Pale Fire by Vladimir Nabokov", student3.getName());
-        assertEquals(4, library.addBookRequest("Pale Fire by Vladimir Nabokov", teacher1.getName()).size());
+        library.addBookRequest("Pale Fire by Vladimir Nabokov", student3);
+        assertEquals(4, library.addBookRequest("Pale Fire by Vladimir Nabokov", teacher1).size());
 //        requests = library.getBookRequests();
 //        System.out.println(requests.toString());
 
-        Queue queue2 = library.addBookRequest("In Search of Lost Time by Marcel Proust", student1.getName());
-        assertEquals(queue2, library.addBookRequest("In Search of Lost Time by Marcel Proust", student4.getName()));
+        Queue queue2 = library.addBookRequest("In Search of Lost Time by Marcel Proust", student1);
+        assertEquals(queue2, library.addBookRequest("In Search of Lost Time by Marcel Proust", student4));
 
-        library.addBookRequest("David Copperfield by Charles Dickens", student3.getName());
-        assertEquals(1, library.addBookRequest("Pride and Prejudice by Jane Austen", student2.getName()).size());
+        library.addBookRequest("David Copperfield by Charles Dickens", student3);
+        assertEquals(1, library.addBookRequest("Pride and Prejudice by Jane Austen", student2).size());
 
-        assertEquals(3, library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2.getName()).size());
+        assertEquals(3, library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2).size());
 //        requests = library.getBookRequests();
 //        System.out.println(requests.toString());
     }
@@ -239,22 +244,22 @@ class LibraryTest {
     @org.junit.jupiter.api.Test
     void getBookRequests() {
         Map requests = library.getBookRequests();
-        Person student1 = new Person(101, "Samuel", "junior student", 1995);
-        Person student2 = new Person(102, "Tunji", "senior student", 1993);
-        Person teacher1 = new Person(103, "David", "teacher", 1990);
-        Person student3 = new Person(104, "Emmanuel", "senior student", 1992);
-        Person student4 = new Person(105, "Daniel", "junior student", 1998);
-        Person teacher2 = new Person(106, "Chibueze", "teacher", 1985);
+        Person student1 = new Person(101, "Samuel", "junior student", 3, 1995);
+        Person student2 = new Person(102, "Tunji", "senior student", 2, 1993);
+        Person teacher1 = new Person(103, "David", "teacher", 1,1990);
+        Person student3 = new Person(104, "Emmanuel", "senior student", 2, 1992);
+        Person student4 = new Person(105, "Daniel", "junior student", 3, 1998);
+        Person teacher2 = new Person(106, "Chibueze", "teacher", 1, 1985);
 
-        Queue queue2 = library.addBookRequest("In Search of Lost Time by Marcel Proust", student1.getName());
-        assertEquals(queue2, library.addBookRequest("In Search of Lost Time by Marcel Proust", student4.getName()));
+        Queue queue2 = library.addBookRequest("In Search of Lost Time by Marcel Proust", student1);
+        assertEquals(queue2, library.addBookRequest("In Search of Lost Time by Marcel Proust", student4));
 
-        library.addBookRequest("David Copperfield by Charles Dickens", student3.getName());
-        assertEquals(1, library.addBookRequest("Pride and Prejudice by Jane Austen", student2.getName()).size());
-        assertEquals(2, library.addBookRequest("Pride and Prejudice by Jane Austen", student1.getName()).size());
-        assertEquals(3, library.addBookRequest("Pride and Prejudice by Jane Austen", teacher1.getName()).size());
+        library.addBookRequest("David Copperfield by Charles Dickens", student3);
+        assertEquals(1, library.addBookRequest("Pride and Prejudice by Jane Austen", student2).size());
+        assertEquals(2, library.addBookRequest("Pride and Prejudice by Jane Austen", student1).size());
+        assertEquals(3, library.addBookRequest("Pride and Prejudice by Jane Austen", teacher1).size());
 
-        assertEquals(3, library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2.getName()).size());
+        assertEquals(3, library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2).size());
         requests = library.getBookRequests();
         System.out.println(requests.toString());
     }
