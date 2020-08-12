@@ -4,7 +4,6 @@ import system.library.models.Liberian;
 import system.library.models.Library;
 import system.library.models.Person;
 
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class Main {
@@ -66,13 +65,13 @@ public class Main {
             //  print the Library menu for the liberian.
             System.out.println("Select and type an option from the menu: " +
                     "( add_user  view_users  add_book  view_books  add_bookRequest  view_bookRequest  lend_book  lend_byPriority  retrieve_book  exit )");
-            userInput = scanner.next();
+            userInput = scanner.nextLine();
 
             // Handle the adding of users from the console.
             if (userInput.equals("add_user")) {
 
                 System.out.println("===========ADD USER==========");
-                Person user = addUser();
+                Person user = getUser();
                 library.addUser(user);
                 System.out.println("....................>>>  " + user.getName() + " has been added to the library successfully.\n");
             }
@@ -95,19 +94,21 @@ public class Main {
 
                 System.out.println("===========ADD BOOK==========");
                 String book = getBook();
-                System.out.print("Number of Copies): ");
+                System.out.println("Number of Copies: ");
                 int copies = scanner.nextInt();
                 library.addBook(book,  copies);
                 System.out.println("....................>>>  " + copies + " copies of " + book + " has been added to the library successfully.\n");
-            } else if (userInput.equals("add_bookRequest")) {
+            }
+            // Allow liberian to add book request to the library from the console.
+            else if (userInput.equals("add_bookRequest")) {
 
                 System.out.println("===========ADD BOOK REQUEST==========");
-                System.out.print("Name of user): ");
-                String userName = scanner.next();
-                System.out.print("Name of book): ");
-                String bookName = scanner.next();
-                System.out.print("Enter Authur's Name (Use underscore as space): ");
-                String authur = scanner.next();
+                System.out.println("Name of user): ");
+                String userName = scanner.nextLine();
+                System.out.println("Name of book): ");
+                String bookName = scanner.nextLine();
+                System.out.println("Enter Authur's Name (Use underscore as space): ");
+                String authur = scanner.nextLine();
                 String book = bookName + " by " + authur;
                 Person user;
                 List<Person> persons = library.getUsers();
@@ -118,11 +119,16 @@ public class Main {
                         System.out.println("....................>>>  " + user.getName() + " has been added to the Request Queue of the library successfully.\n");
                     }
                 }
-            }else if (userInput.equals("view_bookRequest")) {
+            }
+            // Allow Liberian to view book requests
+            else if (userInput.equals("view_bookRequest")) {
 
                 System.out.println("==============BOOK REQUEST==============\n" + library.getBookRequests().toString() + "\n");
 
-            } else if (userInput.equals("lend_book")) {
+            }
+
+            // Allow library to lend book to borrower by order of request
+            else if (userInput.equals("lend_book")) {
 
                 System.out.println("==============LEND BOOKS BY ORDER OF REQUEST==============");
                 String book = getBook();
@@ -130,7 +136,10 @@ public class Main {
                 List<String> bookHolders = library.lendBook(book, requests);
                 System.out.println(book + " has been lended to " + bookHolders.toString() + " successfully ");
 
-            } else if (userInput.equals("lend_byPriority")) {
+            }
+
+            // Allow library to lend book to borrower by prioritizing teacher over senior student over junior student.
+            else if (userInput.equals("lend_byPriority")) {
 
                 System.out.println("==============LEND BOOKS BY PRIORITY==============");
                 String book = getBook();
@@ -138,11 +147,13 @@ public class Main {
                 List<Person> bookHolders = library.lendBook(book, requests, true);
                 System.out.println(book + " has been lended to " + bookHolders.toString() + " in the order of teacher, senior then junior student");
 
-            }  else if (userInput.equals("retrieve_book")) {
+            }
+            //  Allow liberian to retrieve books from borrowers
+            else if (userInput.equals("retrieve_book")) {
 
                 System.out.println("==============RETRIEVE BOOK FROM A BORROWER==============");
                 String book = getBook();
-                String borrower = scanner.next();
+                String borrower = scanner.nextLine();
                 library.retrieveBook(book, borrower);
                 System.out.println(book + " has been retrieved from " + borrower);
 
@@ -152,40 +163,41 @@ public class Main {
     }
 
 
+    // Method to get the name and authur of book from the console.
     private static String getBook() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter Book Name (Use underscore as space): ");
-        String bookName = scanner.next() + scanner.next();
+        System.out.println("Enter Book Name: ");
+        String bookName = scanner.nextLine();
 
-        System.out.print("Enter Authur's Name (Use underscore as space): ");
-        String authur = scanner.next();
+        System.out.println("Enter Authur's Name: ");
+        String authur = scanner.nextLine();
 
         String joined = bookName + " by " + authur;
 
         return joined;
     }
 
-
-    public static Person addUser(){
+    // Method to allow user details to be entered from the console.
+    public static Person getUser(){
 
         Scanner scanner = new Scanner(System.in);
 
         Person user;
         try {
-            System.out.print("Enter users  ID number: ");
+            System.out.println("Enter users  ID number: ");
             int user_id = scanner.nextInt();
 
-            System.out.print("Enter User's Name: ");
-            String users_name = scanner.next();
+            System.out.println("Enter User's Name: ");
+            String users_name = scanner.nextLine();
 
-            System.out.print("Enter User Type (Teacher, Senior or Junior): ");
-            String users_type = scanner.next();
+            System.out.println("Enter User Type (Teacher, Senior or Junior): ");
+            String users_type = scanner.nextLine();
 
-            System.out.print("Enter User's  Year of Birth: ");
+            System.out.println("Enter User's  Year of Birth: ");
             int year = scanner.nextInt();
 
-            System.out.print("Enter User's  Priority: ");
+            System.out.println("Enter User's  Priority: ");
             int priority = scanner.nextInt();
 
             user = new Person(user_id, users_name, users_type, priority, year);
