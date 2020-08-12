@@ -9,11 +9,12 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
+        // Creating a library at the start of the application.
         Library library;
-
         Liberian liberian = new Liberian(1, "auto", "liberian", 1, 2020);
         library = new Library("decagon_library", liberian);
 
+        // Adding some books to the library.
         library.addBook("The History of Tom Jones, a Foundling by Henry Fielding", 3);
         library.addBook("Pride and Prejudice by Jane Austen", 5);
         library.addBook("The Red and the Black by Stendhal", 2);
@@ -23,6 +24,7 @@ public class Main {
         library.addBook("The Sound and the Fury by William Faulkner", 6);
         library.addBook("Pale Fire by Vladimir Nabokov", 5);
 
+        // Creating some users
         Person student1 = new Person(101, "Samuel", "junior student", 3, 1995);
         Person student2 = new Person(102, "Tunji", "senior student", 2, 1993);
         Person teacher1 = new Person(103, "David", "teacher", 1,1990);
@@ -30,6 +32,7 @@ public class Main {
         Person student4 = new Person(105, "Daniel", "junior student", 3, 1998);
         Person teacher2 = new Person(106, "Chibueze", "teacher", 1, 1985);
 
+        // Adding some users to the library
         library.addUser(student1);
         library.addUser(student2);
         library.addUser(student3);
@@ -37,6 +40,7 @@ public class Main {
         library.addUser(teacher1);
         library.addUser(teacher2);
 
+        // Adding book requests from users
         library.addBookRequest("Pale Fire by Vladimir Nabokov", student1);
         library.addBookRequest("Pale Fire by Vladimir Nabokov", student1);
         library.addBookRequest("Pale Fire by Vladimir Nabokov", student2);
@@ -48,6 +52,7 @@ public class Main {
         library.addBookRequest("Pride and Prejudice by Jane Austen", student2);
         library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2);
 
+        // Printing infomation about the app to the liberian
         System.out.println("====================== ABOUT APP ==========================" +
                 "\n" +
                 "\n" +
@@ -55,33 +60,38 @@ public class Main {
                 "adding of book requests, lending of books to users and retrieving books from users that borrowed books.\n" +
                 "the library can be used by selecting/typing actions from the menu...\n");
 
-        //  print the Library menu for the liberian.
         Scanner scanner = new Scanner(System.in);
         String userInput;
-
         do {
+            //  print the Library menu for the liberian.
             System.out.println("Select and type an option from the menu: " +
                     "( add_user  view_users  add_book  view_books  add_bookRequest  view_bookRequest  lend_book  lend_byPriority  retrieve_book  exit )");
             userInput = scanner.next();
 
+            // Handle the adding of users from the console.
             if (userInput.equals("add_user")) {
 
                 System.out.println("===========ADD USER==========");
                 Person user = addUser();
                 library.addUser(user);
                 System.out.println("....................>>>  " + user.getName() + " has been added to the library successfully.\n");
-            } else if (userInput.equals("view_users")) {
+            }
+            // Allow liberian to view users from the console.
+            else if (userInput.equals("view_users")) {
 
                 System.out.println("==============USERS==============");
                 for (Person user : library.getUsers()) {
                     System.out.println(user.getName());
                 }
-
-            }else if (userInput.equals("view_books")) {
+            }
+            // Allow liberian to view books from the console.
+            else if (userInput.equals("view_books")) {
 
                 System.out.println("==============BOOKS==============\n" + library.getBooks().toString() + "\n");
 
-            } else if (userInput.equals("add_book")) {
+            }
+            // Allow liberian to add books from the console.
+            else if (userInput.equals("add_book")) {
 
                 System.out.println("===========ADD BOOK==========");
                 String book = getBook();
