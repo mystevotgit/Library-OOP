@@ -134,7 +134,7 @@ public class Main {
                 String book = getBook();
                 Queue requests = library.getBookRequests().get(book);
                 List<String> bookHolders = library.lendBook(book, requests);
-                System.out.println(book + " has been lended to " + bookHolders.toString() + " successfully ");
+                System.out.println(book + " has been lent to " + bookHolders.toString() + " successfully ");
 
             }
 
@@ -145,7 +145,7 @@ public class Main {
                 String book = getBook();
                 List<Person> requests = (List<Person>) library.getBookRequests().get(book);
                 List<Person> bookHolders = library.lendBook(book, requests, true);
-                System.out.println(book + " has been lended to " + bookHolders.toString() + " in the order of teacher, senior then junior student");
+                System.out.println(book + " has been lent to " + bookHolders.toString() + " in the order of teacher, senior then junior student");
 
             }
             //  Allow liberian to retrieve books from borrowers

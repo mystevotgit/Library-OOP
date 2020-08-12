@@ -139,13 +139,16 @@ public class Library {
                 return 0;
             }
         });
-
+        // Adding everyone in the request queue into a priority queue
         queue.addAll(requests);
+        // Lending book according to the order in the priority queue
+        // by storing those who received a book in a list.
         List<Person> result = new ArrayList<>();
         while(queue.iterator().hasNext()) {
             System.out.println(queue.element().getName());
             result.add(queue.remove());
         }
+
         return result;
     }
 
