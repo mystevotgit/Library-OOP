@@ -36,6 +36,23 @@ class LibraryTest {
     }
 
     @org.junit.jupiter.api.Test
+    void addUser() {
+        Person student1 = new Person(101, "Samuel", "junior student", 3, 1995);
+        Person student2 = new Person(102, "Tunji", "senior student", 2, 1993);
+        Person teacher1 = new Person(103, "David", "teacher", 1,1990);
+        Person student3 = new Person(104, "Emmanuel", "senior student", 2, 1992);
+        Person student4 = new Person(105, "Daniel", "junior student", 3, 1998);
+        Person teacher2 = new Person(106, "Chibueze", "teacher", 1, 1985);
+
+        assertEquals(student1, library.addUser(student1));
+        assertEquals(student2, library.addUser(student2));
+        assertEquals(teacher1, library.addUser(teacher1));
+        assertEquals(student3, library.addUser(student3));
+        assertEquals(student4, library.addUser(student4));
+        assertEquals(teacher2, library.addUser(teacher2));
+    }
+
+    @org.junit.jupiter.api.Test
     void getBooks() {
         library.addBook("Pale Fire by Vladimir Nabokov", 5);
         assertEquals("{Pale Fire by Vladimir Nabokov=5}", library.getBooks().toString());

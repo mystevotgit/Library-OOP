@@ -7,6 +7,7 @@ public class Library {
     // Fields
     private String name;
     private Liberian liberian;
+    private List<Person> users;
     private Map<String, Integer> books;
     private Map<String, Queue<Person>> bookRequests;
     private Map<String, List<Person>> bookHolders;
@@ -21,9 +22,28 @@ public class Library {
     public Library(String libraryName, Liberian liberian) {
         this.name = libraryName;
         this.liberian = liberian;
+        this.users = new ArrayList<>();
         this.books = new HashMap<>();
         this.bookRequests = new HashMap<String, Queue<Person>>();
         this.bookHolders = new HashMap<>();
+    }
+
+
+
+    /**
+     * This method can be used to add users of the library
+     * @param person
+     * @param <Person>
+     * @return
+     */
+
+    public Person addUser(Person person) {
+        if (users.contains(person)) {
+            System.out.println("User exist already");
+        } else {
+            users.add((system.library.models.Person) person);
+        }
+        return (Person) users.get(users.size() - 1);
     }
 
     /**
@@ -59,7 +79,6 @@ public class Library {
                 bookHolders.remove(key);
             }
         }
-//        System.out.println(bookHolders.keySet());
         return bookHolders.keySet();
     }
 
@@ -172,6 +191,10 @@ public class Library {
     // Getters
     public String getName() {
         return name;
+    }
+
+    public List<Person> getUsers() {
+        return users;
     }
 
     public Map<String, Integer> getBooks() {
