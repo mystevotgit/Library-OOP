@@ -10,9 +10,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Library library;
-        //  print the Library menu for the user.
-        Scanner scanner = new Scanner(System.in);
-        String userInput;
+
         Liberian liberian = new Liberian(1, "auto", "liberian", 1, 2020);
         library = new Library("decagon_library", liberian);
 
@@ -57,9 +55,13 @@ public class Main {
                 "adding of book requests, lending of books to users and retrieving books from users that borrowed books.\n" +
                 "the library can be used by selecting/typing actions from the menu...\n");
 
+        //  print the Library menu for the liberian.
+        Scanner scanner = new Scanner(System.in);
+        String userInput;
+
         do {
             System.out.println("Select and type an option from the menu: " +
-                    "( add_user  view_users  add_book  view_books  add_book_request  view_bookRequest  lend_book   retrieve_book   )");
+                    "( add_user  view_users  add_book  view_books  add_bookRequest  view_bookRequest  lend_book  lend_byPriority  retrieve_book  exit )");
             userInput = scanner.next();
 
             if (userInput.equals("add_user")) {
@@ -87,7 +89,7 @@ public class Main {
                 int copies = scanner.nextInt();
                 library.addBook(book,  copies);
                 System.out.println("....................>>>  " + copies + " copies of " + book + " has been added to the library successfully.\n");
-            } else if (userInput.equals("add_book_request")) {
+            } else if (userInput.equals("add_bookRequest")) {
 
                 System.out.println("===========ADD BOOK REQUEST==========");
                 System.out.print("Name of user): ");
@@ -106,9 +108,37 @@ public class Main {
                         System.out.println("....................>>>  " + user.getName() + " has been added to the Request Queue of the library successfully.\n");
                     }
                 }
+            }else if (userInput.equals("view_bookRequest")) {
+
+                System.out.println("==============BOOK REQUEST==============\n" + library.getBookRequests().toString() + "\n");
+
+            } else if (userInput.equals("lend_book")) {
+
+                System.out.println("==============LEND BOOKS BY ORDER OF REQUEST==============");
+                String book = getBook();
+                Queue requests = library.getBookRequests().get(book);
+                List<String> bookHolders = library.lendBook(book, requests);
+                System.out.println(book + " has been lended to " + bookHolders.toString() + " successfully ");
+
+            } else if (userInput.equals("lend_byPriority")) {
+
+                System.out.println("==============LEND BOOKS BY PRIORITY==============");
+                String book = getBook();
+                List<Person> requests = (List<Person>) library.getBookRequests().get(book);
+                List<Person> bookHolders = library.lendBook(book, requests, true);
+                System.out.println(book + " has been lended to " + bookHolders.toString() + " in the order of teacher, senior then junior student");
+
+            }  else if (userInput.equals("retrieve_book")) {
+
+                System.out.println("==============RETRIEVE BOOK FROM A BORROWER==============");
+                String book = getBook();
+                String borrower = scanner.next();
+                library.retrieveBook(book, borrower);
+                System.out.println(book + " has been retrieved from " + borrower);
+
             }
         } while(!userInput.equals("exit"));
-        System.out.println(userInput);
+        System.out.println(userInput + " successful. Goodbye!");
     }
 
 
@@ -116,7 +146,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter Book Name (Use underscore as space): ");
-        String bookName = scanner.next();
+        String bookName = scanner.next() + scanner.next();
 
         System.out.print("Enter Authur's Name (Use underscore as space): ");
         String authur = scanner.next();
@@ -130,7 +160,7 @@ public class Main {
     public static Person addUser(){
 
         Scanner scanner = new Scanner(System.in);
-//        String userInput = scanner.next();
+
         Person user;
         try {
             System.out.print("Enter users  ID number: ");
@@ -150,7 +180,6 @@ public class Main {
 
             user = new Person(user_id, users_name, users_type, priority, year);
             return user;
-            //            System.out.println(library.addUser(user).getName() + " have been added succssfully.");
         } catch (InputMismatchException e) {
             System.out.println("You entered the wrong type. Enter number for user_id, year and priority.");
         }
