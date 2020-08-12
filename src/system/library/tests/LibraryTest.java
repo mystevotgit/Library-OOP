@@ -112,8 +112,6 @@ class LibraryTest {
         assertEquals(expectedBooks2, library.retrieveBook("In Search of Lost Time by Marcel Proust", "Daniel"));
         assertEquals(expectedBooks3, library.retrieveBook("Pride and Prejudice by Jane Austen", "Tunji"));
 
-        System.out.println(requests.toString());
-        System.out.println(library.getBooks());
 
         List<Person> expected10 = Arrays.asList(teacher2, student3, student1, student4);
         List<Person> bookRequests = Arrays.asList(student1, student4, teacher2, student3);
@@ -244,8 +242,7 @@ class LibraryTest {
 
         library.addBookRequest("Pale Fire by Vladimir Nabokov", student3);
         assertEquals(4, library.addBookRequest("Pale Fire by Vladimir Nabokov", teacher1).size());
-//        requests = library.getBookRequests();
-//        System.out.println(requests.toString());
+
 
         Queue queue2 = library.addBookRequest("In Search of Lost Time by Marcel Proust", student1);
         assertEquals(queue2, library.addBookRequest("In Search of Lost Time by Marcel Proust", student4));
@@ -254,13 +251,12 @@ class LibraryTest {
         assertEquals(1, library.addBookRequest("Pride and Prejudice by Jane Austen", student2).size());
 
         assertEquals(3, library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2).size());
-//        requests = library.getBookRequests();
-//        System.out.println(requests.toString());
+
     }
 
     @org.junit.jupiter.api.Test
     void getBookRequests() {
-        Map requests = library.getBookRequests();
+
         Person student1 = new Person(101, "Samuel", "junior student", 3, 1995);
         Person student2 = new Person(102, "Tunji", "senior student", 2, 1993);
         Person teacher1 = new Person(103, "David", "teacher", 1,1990);
@@ -277,8 +273,7 @@ class LibraryTest {
         assertEquals(3, library.addBookRequest("Pride and Prejudice by Jane Austen", teacher1).size());
 
         assertEquals(3, library.addBookRequest("In Search of Lost Time by Marcel Proust", teacher2).size());
-        requests = library.getBookRequests();
-        System.out.println(requests.toString());
+
     }
 
 

@@ -146,18 +146,25 @@ public class Library {
         List<Person> result = new ArrayList<>();
         while(queue.iterator().hasNext()) {
             System.out.println(queue.element().getName());
-            result.add(queue.remove());
+            Person holder = queue.remove();
+            result.add(holder);
+            bookHolders.get(book).add(holder);
         }
-
+        System.out.println(bookHolders.get(book));
         return result;
     }
+
+    /**
+     * This method retrieves book from a user.
+     * @param book
+     * @param person
+     * @return
+     */
 
     public Map<String, Integer> retrieveBook(String book, String person) {
         if (bookHolders.get(book).contains(person)) {
             this.addBook(book, 1);
-//            System.out.println(bookHolders.get(book));
             bookHolders.get(book).remove(person);
-//            System.out.println(bookHolders.get(book));
         }else {
             System.out.println(person + " is currently not having any book that belong to the Library.");
         }
