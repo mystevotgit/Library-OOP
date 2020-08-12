@@ -158,6 +158,8 @@ public class Library {
 //            System.out.println(bookHolders.get(book));
             bookHolders.get(book).remove(person);
 //            System.out.println(bookHolders.get(book));
+        }else {
+            System.out.println(person + " is currently not having any book that belong to the Library.");
         }
         return this.books;
     }

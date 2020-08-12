@@ -73,7 +73,7 @@ public class Main {
                 System.out.println("===========ADD USER==========");
                 Person user = getUser();
                 library.addUser(user);
-                System.out.println("....................>>>  " + user.getName() + " has been added to the library successfully.\n");
+                System.out.println("....................>>>  " + user.getName() + " has been added to the library users successfully.\n");
             }
             // Allow liberian to view users from the console.
             else if (userInput.equals("view_users")) {
@@ -97,7 +97,7 @@ public class Main {
                 System.out.println("Number of Copies: ");
                 int copies = scanner.nextInt();
                 library.addBook(book,  copies);
-                System.out.println("....................>>>  " + copies + " copies of " + book + " has been added to the library successfully.\n");
+                System.out.println("....................>>>  " + copies + " copies of " + book + " has been added to the library books successfully.\n");
             }
             // Allow liberian to add book request to the library from the console.
             else if (userInput.equals("add_bookRequest")) {
@@ -153,9 +153,13 @@ public class Main {
 
                 System.out.println("==============RETRIEVE BOOK FROM A BORROWER==============");
                 String book = getBook();
+                System.out.println("Enter User's Name: ");
                 String borrower = scanner.nextLine();
-                library.retrieveBook(book, borrower);
+                Map<String, Integer> books = library.retrieveBook(book, borrower);
                 System.out.println(book + " has been retrieved from " + borrower);
+                System.out.println("This is the current record of books in the library" +
+                        "\n" +
+                        books.toString());
 
             }
         } while(!userInput.equals("exit"));
@@ -185,14 +189,14 @@ public class Main {
 
         Person user;
         try {
-            System.out.println("Enter users  ID number: ");
-            int user_id = scanner.nextInt();
-
             System.out.println("Enter User's Name: ");
             String users_name = scanner.nextLine();
 
             System.out.println("Enter User Type (Teacher, Senior or Junior): ");
             String users_type = scanner.nextLine();
+
+            System.out.println("Enter users  ID number: ");
+            int user_id = scanner.nextInt();
 
             System.out.println("Enter User's  Year of Birth: ");
             int year = scanner.nextInt();
